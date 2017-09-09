@@ -1,6 +1,6 @@
 (ns clj.chapters.intro-clojure
   (:require [clojurecademy.dsl.core :refer :all]
-            [data.sub-chapters.clojure-basics :refer :all]))
+            [clj.sub-chapters.clojure-basics :refer :all]))
 
 
 (def intro-to-clojure

@@ -1,7 +1,7 @@
 (ns clj.course
   (:require [clojurecademy.dsl.core :refer [manifest course]]
-            [data.chapters.intro-clojure :refer :all]
-            [data.chapters.problems :refer :all]))
+            [clj.chapters.intro-clojure :refer :all]
+            [clj.chapters.problems :refer :all]))
 
 
 (def my-manifest (manifest :title "4Clojure"

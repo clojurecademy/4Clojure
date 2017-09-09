@@ -1,7 +1,7 @@
 (ns clj.chapters.problems
   (:require [clojurecademy.dsl.core :refer :all]
-            [data.sub-chapters.elementary :refer [sub-ch-elementary]]
-            [data.sub-chapters.easy :refer [sub-ch-easy]]))
+            [clj.sub-chapters.elementary :refer [sub-ch-elementary]]
+            [clj.sub-chapters.easy :refer [sub-ch-easy]]))
 
 
 (def problems
