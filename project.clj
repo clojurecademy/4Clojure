@@ -10,7 +10,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [clojurecademy "0.1.0"]]
 
-  :plugins [[lein-clojurecademy "0.1.0"]]
+  :plugins [[lein-clojurecademy "0.1.1"]]
 
   :eval-in :leiningen
 
