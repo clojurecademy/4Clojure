@@ -20,7 +20,7 @@
                                ". Clojure is a great Java library consumer, offering the dot-target-member notation for calls to Java.")
                             (p "It is a dialect of " (bold "Lisp programming language") " and has compilers that make it possible to be run on " (hi "Java") ", " (hi "JavaScript") " and "
                                (hi ".Net") " runtime environments.")
-                            (p "Clojure shares with Lisp the " (hi "code-as-clj") " philosophy" (link "(homoiconicity)" "https://en.wikipedia.org/wiki/Homoiconicity") " and a powerful "
+                            (p "Clojure shares with Lisp the " (hi "code-as-data") " philosophy" (link "(homoiconicity)" "https://en.wikipedia.org/wiki/Homoiconicity") " and a powerful "
                                (bold "macro system") ".")
                             (p "Clojure is predominantly a " (italic "functional programming language") ", and features a rich set of "
                                (italic "immutable, persistent clj structures") "."))))
