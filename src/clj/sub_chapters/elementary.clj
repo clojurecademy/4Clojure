@@ -405,7 +405,7 @@
                           (text
                             (p (str "The map function takes two arguments: a function " (bold "(f)") " and a sequence " (bold "(s)") "."
                                     "Map returns a new sequence consisting of the result of applying f to each item of s."
-                                    "Do not confuse the map function with the map clj structure."))))
+                                    "Do not confuse the map function with the map data structure."))))
 
                         (instruction 'ins-sequences-map
                                      (run-pre-tests? false)

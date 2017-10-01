@@ -23,7 +23,7 @@
                             (p "Clojure shares with Lisp the " (hi "code-as-data") " philosophy" (link "(homoiconicity)" "https://en.wikipedia.org/wiki/Homoiconicity") " and a powerful "
                                (bold "macro system") ".")
                             (p "Clojure is predominantly a " (italic "functional programming language") ", and features a rich set of "
-                               (italic "immutable, persistent clj structures") "."))))
+                               (italic "immutable, persistent data structures") "."))))
 
 
                (subject 'subj-about-clojure-syntax
@@ -143,7 +143,7 @@
 
                         (learn
                           (text
-                            (p "There are functions for creating the various clj structures without using the usual literal syntax.")
+                            (p "There are functions for creating the various data structures without using the usual literal syntax.")
                             (code (str "(list 1 2 3)            ; ⇒ '(1 2 3)\n"
                                        "(vector 1 2 3)          ; ⇒ [1 2 3]\n"
                                        "(hash-map :a 1 :b 2)    ; ⇒ {:a 1 :b 2}\n"
@@ -187,7 +187,7 @@
                         (learn
                           (text
                             (p "Data structures in Clojure are actually " (hi "immutable") " --- you can't change them.For now,
-                                      just note that clj structures can't be mutated, but we can get a new modified copy of a clj structure:")))
+                                      just note that data structures can't be mutated, but we can get a new modified copy of a data structure:")))
 
                         (instruction 'ins-ds
                                      (run-pre-tests? false)
@@ -265,14 +265,14 @@
                                " (and in " (hi "and") ", " (hi "or") ", " (hi "cond") ", etc. expressions),
                                          Clojure checks if the " (hi "<test>") " evaluates to something that looks either true or false.
                                          Clojure takes a very simple approach here: " (hi "nil") " and " (hi "false") " are falsey; everything else is truthy.")
-                            (p "This means that zero, the empty string, and empty core clj structures are all true:\n\n")
+                            (p "This means that zero, the empty string, and empty core data structures are all true:\n\n")
                             (code "(if   0 :t :f)  ; ⇒ :t\n(if  \"\" :t :f)  ; ⇒ :t\n(if  [] :t :f)  ; ⇒ :t\n(if  {} :t :f)  ; ⇒ :t\n(if #{} :t :f)  ; ⇒ :t")
                             (p "If you want to check if one of those is empty, you could use the " (hi "empty?")
                                " function, though, the docs recommend using this idiom:\n\n")
                             (code "(if (seq my-stuff)\n  \"still has stuff left\"\n  \"all gone\")")
                             (p "You'll often check for equality using " (hi "=")
                                " (and likewise inequality using " (hi "not=") "), for example:\n\n")
-                            (p (hi "=") " recursively checks equality of nested clj structures
+                            (p (hi "=") " recursively checks equality of nested data structures
                                       (and considers lists and vectors containing the same values in the same order as equal), for example:")
                             (code "(= {:a  [1 2 3] :b #{:x :y} :c {:foo 1 :bar 2}}\n   {:a '(1 2 3) :b #{:y :x} :c {:bar 2 :foo 1}})\n;; ⇒ true")
                             (p "There's also a double-equals function " (hi "==") " that is more forgiving across various types of numbers:\n\n")
@@ -319,9 +319,9 @@
                                " --- but the value of the last expression is what the function call as a whole will evaluate to.")
                             (p "Function definitions (using " (hi "defn") ") should only go at the " (bold "top-level") ".")
                             (p (bold "Use always ") (hi "defn") (bold " when you create a function."))
-                            (p "Functions can return clj structures instead of just scalars:\n\n")
+                            (p "Functions can return data structures instead of just scalars:\n\n")
                             (code "(defn foo\n  [x]\n  [x (+ x 2) (* x 2)])")
-                            (p "and you can of course pass them clj structures as well:")
+                            (p "and you can of course pass them data structures as well:")
                             (code "(defn bar\n  [x]\n  (println x))\n\n(bar {:a 1 :b 2})\n(bar [1 2 3])")
                             (p "To define a function to take, say, two or more arguments:\n\n")
                             (code "(defn baz\n  [a b & the-rest]\n  (println a)\n  (println b)\n  (println the-rest))")
