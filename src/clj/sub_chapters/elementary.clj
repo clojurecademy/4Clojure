@@ -403,9 +403,9 @@
 
                         (learn
                           (text
-                            (p (str "The map function takes two arguments: a function " (bold "(f)") " and a sequence " (bold "(s)") "."
-                                    "Map returns a new sequence consisting of the result of applying f to each item of s."
-                                    "Do not confuse the map function with the map data structure."))))
+                            (p "The map function takes two arguments: a function " (bold "(f)") " and a sequence " (bold "(s)") "."
+                               "Map returns a new sequence consisting of the result of applying f to each item of s."
+                               "Do not confuse the map function with the map data structure.")))
 
                         (instruction 'ins-sequences-map
                                      (run-pre-tests? false)
@@ -427,8 +427,9 @@
 
                         (learn
                           (text
-                            (p (str "The filter function takes two arguments: a predicate function " (bold "(f)") " and a sequence " (bold "(s)") "."
-                                    "Filter returns a new sequence consisting of all the items of s for which (f item) returns true."))))
+                            (p "The filter function takes two arguments: a predicate function " (bold "(f)") " and a sequence "
+                               (bold "(s)") "."
+                               "Filter returns a new sequence consisting of all the items of s for which (f item) returns true.")))
 
                         (instruction 'ins-sequences-filter
                                      (run-pre-tests? false)
@@ -630,7 +631,7 @@
                                                         (p "Enter only " (bold "enough to fill in the blank")
                                                            ", do not retype the whole problem.")
                                                         (code (str "(= (#_blank + (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))\n"
-                                                                   "   (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (#_blank))\n   11)")))
+                                                                   "   (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (#_blank +))\n   11)")))
                                                       (testing
                                                         (is (fills-the-blank? :_ (= (:_ + (map inc (take 3 (drop 2 [2 5 4 1 3 6]))))
                                                                                     (->> [2 5 4 1 3 6] (drop 2) (take 3) (map inc) (:_ +))
