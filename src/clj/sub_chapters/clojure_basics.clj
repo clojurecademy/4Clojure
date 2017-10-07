@@ -351,11 +351,12 @@
                                                                (is (= 6 (my-subtraction 6 0)))))
 
                                      (sub-instruction 'sub-ins-my-multi
-                                                      (text (p "Write a function called " (hi "my-multi") " that takes any number of arguments and multiplies those arguments."))
-                                                      (testing (is (= 2 (my-multi 2)))
-                                                               (is (= 0 (my-multi 3 1 0)))
-                                                               (is (= 24 (my-multi 3 1 -2 -4)))
-                                                               (is (= 48 (my-multi 3 1 -2 -4 2))))))
+                                                      (text (p "Write a function called " (hi "my-multi") " that takes 2 arguments and multiplies those arguments."))
+                                                      (testing (is (= 2 (my-multi 2 1)))
+                                                               (is (= 0 (my-multi 3 0)))
+                                                               (is (= -3 (my-multi 3 -1)))
+                                                               (is (= 1 (my-multi 1 1)))
+                                                               (is (= 4 (my-multi 2 2))))))
                         'functions)))
 
 
@@ -431,5 +432,5 @@
                  [a b]
                  (- a b))
                (defn my-multi
-                 [& args]
-                 (apply * args)))
+                 [a b]
+                 (* a b)))
