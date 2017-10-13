@@ -15,4 +15,5 @@
   :eval-in :leiningen
 
   :clojurecademy {:course-map    clj.course/course-map
-                  :helper-fns-ns clj.helpers})
+                  :helper-fns-ns clj.helpers}
+  )

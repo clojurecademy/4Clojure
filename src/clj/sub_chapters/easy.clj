@@ -453,7 +453,7 @@
                         (instruction 'ins-flatten-a-sequence
                                      (run-pre-tests? false)
                                      (initial-code :none)
-                                     (rule :no-rule? true)
+                                     (rule :restricted-fns '[flatten])
 
                                      (sub-instruction 'sub-ins-flatten-a-sequence
                                                       (text
