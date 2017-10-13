@@ -207,6 +207,57 @@
                                                       (testing (is (fn-used? println) "Apparently you did not use println function."))))
                         'data-structures-example)
 
+               (subject 'subj-ns
+                        "Namespace"
+                        (learn
+                          (text
+                            (p
+                              "Clojure functions are organized into "
+                              (italic "namespaces") ". "
+                              (str "Clojure namespaces are very similar to Java packages and Python modules. "
+                                   "Namespaces are basically maps (dictionaries) that map names to vars. "
+                                   "In many cases, those vars store functions in them."))
+                            (p "Namespaces are usually defined using the " (hi "clojure.core/ns")
+                               " macro. In its basic form, it takes a name as a symbol:")
+
+                            (code (ns superlib.core))
+
+                            (p "Namespaces can have multiple segments, separated by a dot:")
+
+                            (code (ns megacorp.service.core))
+
+                            (p "As you can see there is always "
+                               (hi "ns")
+                               " declaration in editor because Clojurecademy acts your code as a Clojure file, it does not work like "
+                               (bold "REPL") ", that's why you need to use "
+                               (hi "println")
+                               " function to see results in console. Also you can remove ns, it is " (bold "optional") ".")
+
+                            (p "It is " (bold "highly recommended")
+                               " to avoid using single segment namespaces (e.g. " (hi "superlib")
+                               ") to avoid inconvenient conflicts other developers will have to work around. If a library or application belongs to an organization or a group of projects, the "
+                               (hi "[organization].[library|app].[group-of-functions]")
+                               " pattern is recommended. For example:")
+                            (code "(ns clojurewerkz.welle.kv)\n\n(ns megacorp.search.indexer.core)")
+
+                            (p "In addition, the " (hi "ns") " macro takes a number of optional forms:")
+
+                            (code "(:require ...)\n(:import ...)\n(:use ...)\n(:refer-clojure ...)\n(:gen-class ...)")
+
+                            (p "These are just slightly more concise variants of " (hi "clojure.core/import")
+                               ", " (hi "clojure.core/require") ", et cetera.\n\n")
+
+                            (p "The " (hi ":require")
+                               " helper form is for setting up access to other Clojure namespaces from your code. For example:")
+                            (code "(ns megacorp.profitd.scheduling\n  (:require clojure.set))\n\n;; Now it is possible to do:\n;; (clojure.set/difference #{1 2 3} #{3 4 5})")
+
+                            (p "This will make sure the " (hi "clojure.set") " namespace is loaded, compiled, and available as "
+                               (hi "clojure.set")
+                               " (using its fully qualified name). It is possible (and common) to make a namespace available under an alias:")
+                            (code "(ns megacorp.profitd.scheduling\n  (:require [clojure.set :as cs]))\n\n;; Now it is possible to do:\n;; (cs/difference #{1 2 3} #{3 4 5})")
+
+                            (p "One more example with two required namespaces:")
+                            (code "(ns megacorp.profitd.scheduling\n  (:require [clojure.set  :as cs]\n            [clojure.walk :as walk]))"))))
 
                (subject 'subj-strings
                         "Strings"

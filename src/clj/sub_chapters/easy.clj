@@ -228,13 +228,17 @@
                                                         (code (true? (palindrome "racecar")))
                                                         (code (true? (palindrome [:foo :bar :foo])))
                                                         (code "(true? (palindrome '(1 1 3 3 1 1)))")
-                                                        (code "(false? (palindrome '(:a :b :c)))"))
+                                                        (code "(false? (palindrome '(:a :b :c)))")
+                                                        (code (false? (palindrome [:a :b :c :a])))
+                                                        (code (true? (palindrome [:x]))))
                                                       (testing
                                                         (is (false? (palindrome '(1 2 3 4 5))) :default :advanced)
                                                         (is (true? (palindrome "racecar")) :default :advanced)
                                                         (is (true? (palindrome [:foo :bar :foo])) :default :advanced)
                                                         (is (true? (palindrome '(1 1 3 3 1 1))) :default :advanced)
-                                                        (is (false? (palindrome '(:a :b :c))) :default :advanced))))
+                                                        (is (false? (palindrome '(:a :b :c))) :default :advanced)
+                                                        (is (false? (palindrome [:a :b :c :a])) :default :advanced)
+                                                        (is (true? (palindrome [:x])) :default :advanced))))
                         'palindrome-detector)
 
 
