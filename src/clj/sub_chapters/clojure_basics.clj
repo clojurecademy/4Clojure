@@ -47,7 +47,9 @@
 
                                      (sub-instruction 'sub-ins-clojure-syntax
                                                       (text (p "Please click the Run button to execute the code.")
-                                                            (p "Note: You can use " (bold "Cmd/Ctrl/Alt") "(based on your OS) + " (bold "Enter") " combination to run the code."))
+                                                            (p "Note: You can use " (bold "⌥(Alt)") " + " (bold "Enter")
+                                                               " combination to run the code or you can try your code with REPL: "
+                                                               (bold "⌘(Ctrl)") " + " (bold "Enter")))
                                                       (testing (is (form-used? (println "Hello, World"))))))
                         'clojure-syntax)
 
