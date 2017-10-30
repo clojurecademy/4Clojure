@@ -291,7 +291,7 @@
                                                       (text (p "Replace ns(namespace) in the editor with the following ns to be able to use " (hi "clojure.string") " namespace:")
                                                             (code "(ns string-example\n  (:require [clojure.string :as str]))")
                                                             (p "Now join 2 strings with join function by using clojure string ns."))
-                                                      (testing (is (str-join-used? (all-forms)) "Apparently you did not use str/join function properly."))))
+                                                      (testing (is (form-used-nes? str/join) "Apparently you did not use str/join function properly."))))
                         'string-example)
 
 
@@ -467,9 +467,8 @@
 
 (defcoursetest my-test-12
                [ch-intro-to-clojure sub-ch-clojure-basics subj-control-structures ins-control-structures sub-ins-write-example-uses-if-fn]
-               (if (> 1 0)
-                 (println "Love me")
-                 (println "Hate me")))
+               (let [a "blue"]
+                 (if (== 0 (compare a "red")) (println "red") (println "blue"))))
 
 
 (defcoursetest my-test-13
