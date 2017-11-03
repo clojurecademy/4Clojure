@@ -65,22 +65,22 @@
 
                                      (sub-instruction 'sub-ins-addition
                                                       (text (p "We are going to add 3 numbers with " (hi "+") " operator.")
-                                                            (p "Please copy and paste the following code and click Run.")
+                                                            (p "Please type the following code and click Run.")
                                                             (code (+ 1 2 3)))
-                                                      (testing (is (form-used? (+ 1 2 3)) "Apparently you did not copy and paste properly.Please check copy paste order.")))
+                                                      (testing (is (form-used? (+ 1 2 3)) "Apparently you did not type the form properly.")))
 
                                      (sub-instruction 'sub-ins-print-addition
                                                       (text (p "We did not see anything in the " (hi "console") " because we did not " (bold "print") " the result out.")
-                                                            (p "Please also copy and paste the following code under the previous code then we will see the result.")
+                                                            (p "Please also type the following code under the previous code then we will see the result.")
                                                             (code (println (+ 1 2 3))))
-                                                      (testing (is (form-used? (println (+ 1 2 3))) "Apparently you did not copy and paste properly.Please check copy paste order.")))
+                                                      (testing (is (form-used? (println (+ 1 2 3))) "Apparently you did not type the form properly.")))
 
                                      (sub-instruction 'sub-ins-nested-expressions
                                                       (text (p "We can construct nested structures like this")
                                                             (code (+ 5 (* 5 (- 7 2 1))))
                                                             (p "Please print this code under the previous code that prints: " (hi "(+ 1 2 3)")))
                                                       (testing (is (form-used? (println (+ 5 (* 5 (- 7 2 1)))))
-                                                                   "Apparently you did not copy and paste properly.Please check copy paste order."))))
+                                                                   "Apparently you did not type the form properly. Maybe you forgot println?"))))
                         'math-operations)
 
 
