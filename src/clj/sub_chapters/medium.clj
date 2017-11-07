@@ -242,6 +242,34 @@
                         'juxtaposition)
 
 
+               (subject 'subj-word-sorting
+                        "Word Sorting"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "sort-words") " which splits a sentence up into a sorted list of words. Capitalization should not affect sort order and punctuation should be ignored.")))
+
+                        (instruction 'ins-word-sorting
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-word-sorting
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= (sort-words  \"Have a nice day.\")\n   [\"a\" \"day\" \"Have\" \"nice\"])")
+                                                        (code "(= (sort-words  \"Clojure is a fun language!\")\n   [\"a\" \"Clojure\" \"fun\" \"is\" \"language\"])")
+                                                        (code "(= (sort-words  \"Fools fall for foolish follies.\")\n   [\"fall\" \"follies\" \"foolish\" \"Fools\" \"for\"])"))
+                                                      (testing
+                                                        (is (= (sort-words "Have a nice day.")
+                                                               ["a" "day" "Have" "nice"]) :default :advanced)
+                                                        (is (= (sort-words "Clojure is a fun language!")
+                                                               ["a" "Clojure" "fun" "is" "language"]) :default :advanced)
+                                                        (is (= (sort-words "Fools fall for foolish follies.")
+                                                               ["fall" "follies" "foolish" "Fools" "for"]) :default :advanced))))
+                        'word-sorting)
+
+
                (subject 'subj-sequence-reductions
                         "Sequence Reductions"
 
@@ -543,3 +571,9 @@
                (defn my-juxt [& funcs]
                  (fn [& args]
                    (map #(apply % args) funcs))))
+
+(defcoursetest my-test-16
+               [ch-problems sub-ch-medium subj-word-sorting ins-word-sorting sub-ins-word-sorting]
+               (defn sort-words
+                 [x]
+                 (sort-by (fn [v] (.toLowerCase v)) (re-seq #"\w+" x))))
