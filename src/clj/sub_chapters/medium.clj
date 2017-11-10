@@ -270,6 +270,138 @@
                         'word-sorting)
 
 
+               (subject 'subj-prime-numbers
+                        "Prime Numbers"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "prime-nums") " which returns the first x number of prime numbers.")))
+
+                        (instruction 'ins-prime-numbers
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-prime-numbers
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (prime-nums 2) [2 3]))
+                                                        (code (= (prime-nums 5) [2 3 5 7 11]))
+                                                        (code (= (last (prime-nums 100)) 541)))
+                                                      (testing
+                                                        (is (= (prime-nums 2) [2 3]) :default :advanced)
+                                                        (is (= (prime-nums 5) [2 3 5 7 11]) :default :advanced)
+                                                        (is (= (last (prime-nums 100)) 541) :default :advanced))))
+                        'prime-numbers)
+
+
+               (subject 'subj-black-box-testing
+                        "Black Box Testing"
+
+                        (learn
+                          (text
+                            (p "Clojure has many sequence types, which act in subtly different ways. The core functions typically convert them into a uniform \"sequence\" type and work with them that way, but it can be important to understand the behavioral and performance differences so that you know which kind is appropriate for your application.")
+
+                            (p "Write a function called " (hi "black-box") " which takes a collection and returns one of :map, :set, :list, or :vector - describing the type of collection it was given.")
+                            (p "You won't be allowed to inspect their class or use the built-in predicates like list? - the point is to poke at them and understand their behavior.")))
+
+                        (instruction 'ins-black-box-testing
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :restricted-fns '[class type Class vector? sequential? list? seq? map? set? instance? getClass])
+
+                                     (sub-instruction 'sub-ins-black-box-testing
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= :map (black-box {:a 1, :b 2})))
+                                                        (code (= :list (black-box (range (rand-int 20)))))
+                                                        (code (= :vector (black-box [1 2 3 4 5 6])))
+                                                        (code (= :set (black-box #{10 (rand-int 5)})))
+                                                        (code (= [:map :set :vector :list] (map black-box [{} #{} [] ()]))))
+                                                      (testing
+                                                        (is (= :map (black-box {:a 1, :b 2})) :default :advanced)
+                                                        (is (= :list (black-box (range (rand-int 20)))) :default :advanced)
+                                                        (is (= :vector (black-box [1 2 3 4 5 6])) :default :advanced)
+                                                        (is (= :set (black-box #{10 (rand-int 5)})) :default :advanced)
+                                                        (is (= [:map :set :vector :list] (map black-box [{} #{} [] ()])) :default :advanced))))
+                        'black-box-testing)
+
+
+               (subject 'subj-filter-perfect-squares
+                        "Filter Perfect Squares"
+
+                        (learn
+                          (text
+                            (p "Given a string of comma separated integers, write a function called " (hi "comma-sep") " which returns a new comma separated string that only contains the numbers which are perfect squares.")))
+
+                        (instruction 'ins-filter-perfect-squares
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-filter-perfect-squares
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (comma-sep "4,5,6,7,8,9") "4,9"))
+                                                        (code (= (comma-sep "15,16,25,36,37") "16,25,36")))
+                                                      (testing
+                                                        (is (= (comma-sep "4,5,6,7,8,9") "4,9") :default :advanced)
+                                                        (is (= (comma-sep "15,16,25,36,37") "16,25,36") :default :advanced))))
+                        'filter-perfect-squares)
+
+
+               (subject 'subj-anagram-finder
+                        "Anagram Finder"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "find-anagrams") " which finds all the anagrams in a vector of words. A word x is an anagram of word y if all the letters in x can be rearranged in a different order to form y. Your function should return a set of sets, where each sub-set is a group of words which are anagrams of each other. Each sub-set should have at least two words. Words without any anagrams should not be included in the result.")))
+
+                        (instruction 'ins-anagram-finder
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-anagram-finder
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= (find-anagrams [\"meat\" \"mat\" \"team\" \"mate\" \"eat\"])\n   #{#{\"meat\" \"team\" \"mate\"}})")
+                                                        (code "(= (find-anagrams [\"veer\" \"lake\" \"item\" \"kale\" \"mite\" \"ever\"])\n   #{#{\"veer\" \"ever\"} #{\"lake\" \"kale\"} #{\"mite\" \"item\"}})"))
+                                                      (testing
+                                                        (is (= (find-anagrams ["meat" "mat" "team" "mate" "eat"]) #{#{"meat" "team" "mate"}}) :default :advanced)
+                                                        (is (= (find-anagrams ["veer" "lake" "item" "kale" "mite" "ever"]) #{#{"veer" "ever"} #{"lake" "kale"} #{"mite" "item"}}) :default :advanced))))
+                        'anagram-finder)
+
+
+               (subject 'subj-perfect-numbers
+                        "Perfect Numbers"
+
+                        (learn
+                          (text
+                            (p "A number is \"perfect\" if the sum of its divisors equal the number itself. 6 is a perfect number because 1+2+3=6. Write a function called " (hi "perfect-num?") " which returns true for perfect numbers and false otherwise.")))
+
+                        (instruction 'ins-perfect-numbers
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-perfect-numbers
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (perfect-num? 6) true))
+                                                        (code (= (perfect-num? 7) false))
+                                                        (code (= (perfect-num? 496) true))
+                                                        (code (= (perfect-num? 500) false))
+                                                        (code (= (perfect-num? 8128) true)))
+                                                      (testing
+                                                        (is (= (perfect-num? 6) true) :default :advanced)
+                                                        (is (= (perfect-num? 7) false) :default :advanced)
+                                                        (is (= (perfect-num? 496) true) :default :advanced)
+                                                        (is (= (perfect-num? 500) false) :default :advanced)
+                                                        (is (= (perfect-num? 8128) true) :default :advanced))))
+                        'perfect-numbers)
+
+
                (subject 'subj-sequence-reductions
                         "Sequence Reductions"
 
@@ -443,6 +575,119 @@
                                                                [0 1 2 3 4 5 6 7 8 9 11 22 33 44 55 66 77 88 99 101]) :default :advanced))))
                         'the-balance-of-n)
 
+
+               (subject 'subj-power-set
+                        "Power Set"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "power-set")
+                               " which generates the " (link "power set" "http://en.wikipedia.org/wiki/Power_set")
+                               " of a given set. The power set of a set x is the set of all subsets of x, including the empty set and x itself.\n")))
+
+                        (instruction 'ins-power-set
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-power-set
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}}))
+                                                        (code (= (power-set #{}) #{#{}}))
+                                                        (code "(= (power-set #{1 2 3})\n   #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}})")
+                                                        (code (= (count (power-set (into #{} (range 10)))) 1024)))
+                                                      (testing
+                                                        (is (= (power-set #{1 :a}) #{#{1 :a} #{:a} #{} #{1}}) :default :advanced)
+                                                        (is (= (power-set #{}) #{#{}}) :default :advanced)
+                                                        (is (= (power-set #{1 2 3}) #{#{} #{1} #{2} #{3} #{1 2} #{1 3} #{2 3} #{1 2 3}}) :default :advanced)
+                                                        (is (= (count (power-set (into #{} (range 10)))) 1024) :default :advanced))))
+                        'power-set)
+
+
+               (subject 'subj-equivalence-classes
+                        "Equivalence Classes"
+
+                        (learn
+                          (text
+                            (p "A function f defined on a domain D induces an " (link "equivalence relation " "http://en.wikipedia.org/wiki/Equivalence_relation")
+                               " on D, as follows: a is equivalent to b with respect to f if and only if (f a) is equal to (f b). Write a function called " (hi "eq") " with arguments f and D that computes the " (link "equivalence classes" "http://en.wikipedia.org/wiki/Equivalence_class")
+                               " of D with respect to f.")))
+
+                        (instruction 'ins-equivalence-classes
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-equivalence-classes
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= (eq #(* % %) #{-2 -1 0 1 2})\n   #{#{0} #{1 -1} #{2 -2}})")
+                                                        (code "(= (eq #(rem % 3) #{0 1 2 3 4 5 })\n   #{#{0 3} #{1 4} #{2 5}})")
+                                                        (code "(= (eq identity #{0 1 2 3 4})\n   #{#{0} #{1} #{2} #{3} #{4}})")
+                                                        (code "(= (eq (constantly true) #{0 1 2 3 4})\n   #{#{0 1 2 3 4}})"))
+                                                      (testing
+                                                        (is (= (eq #(* % %) #{-2 -1 0 1 2}) #{#{0} #{1 -1} #{2 -2}}) :default :advanced)
+                                                        (is (= (eq #(rem % 3) #{0 1 2 3 4 5}) #{#{0 3} #{1 4} #{2 5}}) :default :advanced)
+                                                        (is (= (eq identity #{0 1 2 3 4}) #{#{0} #{1} #{2} #{3} #{4}}) :default :advanced)
+                                                        (is (= (eq (constantly true) #{0 1 2 3 4}) #{#{0 1 2 3 4}}) :default :advanced))))
+                        'equivalence-classes)
+
+
+               (subject 'subj-identify-keys-and-values
+                        "Identify keys and values"
+
+                        (learn
+                          (text
+                            (p "Given an input sequence of keywords and numbers, write a function called " (hi "keys-vals") " which creates a map such that each key in the map is a keyword, and the value is a sequence of all the numbers (if any) between it and the next keyword in the sequence.")))
+
+                        (instruction 'ins-identify-keys-and-values
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-identify-keys-and-values
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= {} (keys-vals [])))
+                                                        (code (= {:a [1]} (keys-vals [:a 1])))
+                                                        (code (= {:a [1], :b [2]} (keys-vals [:a 1, :b 2])))
+                                                        (code (= {:a [1 2 3], :b [], :c [4]} (keys-vals [:a 1 2 3 :b :c 4]))))
+                                                      (testing
+                                                        (is (= {} (keys-vals [])) :default :advanced)
+                                                        (is (= {:a [1]} (keys-vals [:a 1])) :default :advanced)
+                                                        (is (= {:a [1], :b [2]} (keys-vals [:a 1, :b 2])) :default :advanced)
+                                                        (is (= {:a [1 2 3], :b [], :c [4]} (keys-vals [:a 1 2 3 :b :c 4])) :default :advanced))))
+                        'identify-keys-and-values)
+
+
+               (subject 'subj-digits-and-bases
+                        "Digits and bases"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "digits") " which returns a sequence of digits of a non-negative number (first argument) in numerical system with an arbitrary base (second argument). Digits should be represented with their integer values, e.g. 15 would be [1 5] in base 10, [1 1 1 1] in base 2 and [15] in base 16.")))
+
+                        (instruction 'ins-digits-and-bases
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-digits-and-bases
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= [1 2 3 4 5 0 1] (digits 1234501 10)))
+                                                        (code (= [0] (digits 0 11)))
+                                                        (code (= [1 0 0 1] (digits 9 2)))
+                                                        (code (= [1 0] (let [n (rand-int 100000)] (digits n n))))
+                                                        (code (= [16 18 5 24 15 1] (digits Integer/MAX_VALUE 42))))
+                                                      (testing
+                                                        (is (= [1 2 3 4 5 0 1] (digits 1234501 10)) :default :advanced)
+                                                        (is (= [0] (digits 0 11)) :default :advanced)
+                                                        (is (= [1 0 0 1] (digits 9 2)) :default :advanced)
+                                                        (is (= [1 0] (let [n (rand-int 100000)] (digits n n))) :default :advanced)
+                                                        (is (= [16 18 5 24 15 1] (digits Integer/MAX_VALUE 42)) :default :advanced))))
+                        'digits-and-bases)
                ))
 
 
@@ -577,3 +822,72 @@
                (defn sort-words
                  [x]
                  (sort-by (fn [v] (.toLowerCase v)) (re-seq #"\w+" x))))
+
+(defcoursetest my-test-17
+               [ch-problems sub-ch-medium subj-prime-numbers ins-prime-numbers sub-ins-prime-numbers]
+               (defn prime-nums [n]
+                 (take n
+                       (filter (fn [x]
+                                 (->> x
+                                      (range 2)
+                                      (map #(rem x %))
+                                      (some zero?)
+                                      not))
+                               (drop 2 (range))))))
+
+(defcoursetest my-test-18
+               [ch-problems sub-ch-medium subj-black-box-testing ins-black-box-testing sub-ins-black-box-testing]
+               (defn black-box
+                 [x]
+                 ({{} :map #{} :set} (empty x) (if (reversible? x) :vector :list))))
+
+(defcoursetest my-test-19
+               [ch-problems sub-ch-medium subj-filter-perfect-squares ins-filter-perfect-squares sub-ins-filter-perfect-squares]
+               (defn comma-sep [s]
+                 (let [nums        (map #(Integer/valueOf %) (clojure.string/split s #","))
+                       all-perf-sq (set (map #(* % %) (range 100)))
+                       sq-nums     (filter all-perf-sq nums)]
+                   (apply str (interpose "," sq-nums)))))
+
+(defcoursetest my-test-20
+               [ch-problems sub-ch-medium subj-anagram-finder ins-anagram-finder sub-ins-anagram-finder]
+               (defn find-anagrams [v]
+                 (into #{}
+                       (map set
+                            (filter #(> (count %) 1)
+                                    (map val (group-by sort v)))))))
+
+(defcoursetest my-test-21
+               [ch-problems sub-ch-medium subj-perfect-numbers ins-perfect-numbers sub-ins-perfect-numbers]
+               (defn perfect-num? [n]
+                 (= n (apply + (filter #(zero? (mod n %)) (range 1 n))))))
+
+(defcoursetest my-test-22
+               [ch-problems sub-ch-medium subj-power-set ins-power-set sub-ins-power-set]
+               (defn power-set
+                 [s]
+                 (set (reduce #(concat %1 (map (fn [i] (set (conj i %2))) %1)) #{#{}} s))))
+
+(defcoursetest my-test-23
+               [ch-problems sub-ch-medium subj-equivalence-classes ins-equivalence-classes sub-ins-equivalence-classes]
+               (defn eq [f s]
+                 (set (map #(set (val %)) (group-by f s)))))
+
+(defcoursetest my-test-24
+               [ch-problems sub-ch-medium subj-identify-keys-and-values ins-identify-keys-and-values sub-ins-identify-keys-and-values]
+               (defn keys-vals [xs]
+                 (let [partitioned    (partition-by #(and (keyword? %) (identity %)) xs)
+                       pairs          (map vector partitioned (rest partitioned))
+                       relevant-pairs (filter #(->> % first first keyword?) pairs)]
+                   (into {}
+                         (for [[k v] relevant-pairs]
+                           (if (keyword? (first v))
+                             [(first k) []]
+                             [(first k) (into [] v)]))))))
+
+(defcoursetest my-test-25
+               [ch-problems sub-ch-medium subj-digits-and-bases ins-digits-and-bases sub-ins-digits-and-bases]
+               (defn digits [n base]
+                 (if (>= n base)
+                   (concat (digits (int (/ n base)) base) [(mod n base)])
+                   [n])))
