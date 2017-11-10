@@ -688,6 +688,149 @@
                                                         (is (= [1 0] (let [n (rand-int 100000)] (digits n n))) :default :advanced)
                                                         (is (= [16 18 5 24 15 1] (digits Integer/MAX_VALUE 42)) :default :advanced))))
                         'digits-and-bases)
+
+
+               (subject 'subj-oscilrate
+                        "Oscilrate"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "oscilrate") " that takes an initial value and a variable number of functions. It should return a lazy sequence of the functions applied to the value in order, restarting from the first function after it hits the end.")))
+
+                        (instruction 'ins-oscilrate
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-oscilrate
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0]))
+                                                        (code (= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7]))
+                                                        (code (= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3])))
+                                                      (testing
+                                                        (is (= (take 3 (oscilrate 3.14 int double)) [3.14 3 3.0]) :default :advanced)
+                                                        (is (= (take 5 (oscilrate 3 #(- % 3) #(+ 5 %))) [3 0 5 2 7]) :default :advanced)
+                                                        (is (= (take 12 (oscilrate 0 inc dec inc dec inc)) [0 1 0 1 0 1 2 1 2 1 2 3]) :default :advanced))))
+                        'oscilrate)
+
+
+               (subject 'subj-pronounce-seq
+                        "Sequence of pronunciations"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "pronounce-seq") " that returns a lazy sequence of \"pronunciations\" of a sequence of numbers. A pronunciation of each element in the sequence consists of the number of repeating identical numbers and the number itself. For example, [1 1] is pronounced as [2 1] (\"two ones\"), which in turn is pronounced as [1 2 1 1] (\"one two, one one\").")
+                            (p "Your function should accept an initial sequence of numbers, and return an infinite lazy sequence of pronunciations, each element being a pronunciation of the previous element.")))
+
+                        (instruction 'ins-pronounce-seq
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-pronounce-seq
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= [[1 1] [2 1] [1 2 1 1]] (take 3 (pronounce-seq [1]))))
+                                                        (code (= [3 1 2 4] (first (pronounce-seq [1 1 1 4 4]))))
+                                                        (code (= [1 1 1 3 2 1 3 2 1 1] (nth (pronounce-seq [1]) 6)))
+                                                        (code (= 338 (count (nth (pronounce-seq [3 2]) 15)))))
+                                                      (testing
+                                                        (is (= [[1 1] [2 1] [1 2 1 1]] (take 3 (pronounce-seq [1]))) :default :advanced)
+                                                        (is (= [3 1 2 4] (first (pronounce-seq [1 1 1 4 4]))) :default :advanced)
+                                                        (is (= [1 1 1 3 2 1 3 2 1 1] (nth (pronounce-seq [1]) 6)) :default :advanced)
+                                                        (is (= 338 (count (nth (pronounce-seq [3 2]) 15))) :default :advanced))))
+                        'pronounce-seq)
+
+
+               (subject 'subj-decurry
+                        "Decurry"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "decurry") " that accepts a curried function of unknown arity n. Return an equivalent function of n arguments.")
+                            (p "You may wish to read " (link "this" "http://en.wikipedia.org/wiki/Currying") ".")))
+
+                        (instruction 'ins-decurry
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-decurry
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= 10 ((decurry (fn [a]\n             (fn [b]\n               (fn [c]\n                 (fn [d]\n                   (+ a b c d))))))\n       1 2 3 4))")
+                                                        (code "(= 24 ((decurry (fn [a]\n             (fn [b]\n               (fn [c]\n                 (fn [d]\n                   (* a b c d))))))\n       1 2 3 4))")
+                                                        (code "(= 25 ((decurry (fn [a]\n             (fn [b]\n               (* a b))))\n       5 5))\n"))
+                                                      (testing
+                                                        (is (= 10 ((decurry (fn [a]
+                                                                              (fn [b]
+                                                                                (fn [c]
+                                                                                  (fn [d]
+                                                                                    (+ a b c d)))))) 1 2 3 4)) :default :advanced)
+                                                        (is (= 24 ((decurry (fn [a]
+                                                                              (fn [b]
+                                                                                (fn [c]
+                                                                                  (fn [d]
+                                                                                    (* a b c d)))))) 1 2 3 4)) :default :advanced)
+                                                        (is (= 25 ((decurry (fn [a]
+                                                                              (fn [b]
+                                                                                (* a b)))) 5 5)) :default :advanced))))
+                        'decurry)
+
+
+               (subject 'subj-lazy-searching
+                        "Lazy Searching"
+
+                        (learn
+                          (text
+                            (p "Given any number of sequences, each sorted from smallest to largest, write a function called " (hi "lazy-search") " that finds the smallest single number which appears in all of the sequences. The sequences may be infinite, so be careful to search lazily.")))
+
+                        (instruction 'ins-lazy-searching
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-lazy-searching
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= 3 (lazy-search [3 4 5])))
+                                                        (code (= 4 (lazy-search [1 2 3 4 5 6 7] [0.5 3/2 4 19])))
+                                                        (code (= 7 (lazy-search (range) (range 0 100 7/6) [2 3 5 7 11 13])))
+                                                        (code "(= 64 (lazy-search (map #(* % % %) (range)) ;; perfect cubes\n          (filter #(zero? (bit-and % (dec %))) (range)) ;; powers of 2\n          (iterate inc 20))) ;; at least as large as 20"))
+                                                      (testing
+                                                        (is (= 3 (lazy-search [3 4 5])) :default :advanced)
+                                                        (is (= 4 (lazy-search [1 2 3 4 5 6 7] [0.5 3/2 4 19])) :default :advanced)
+                                                        (is (= 7 (lazy-search (range) (range 0 100 7/6) [2 3 5 7 11 13])) :default :advanced)
+                                                        (is (= 64 (lazy-search (map #(* % % %) (range)) ;; perfect cubes
+                                                                               (filter #(zero? (bit-and % (dec %))) (range))
+                                                                               (iterate inc 20))) :default :advanced))))
+                        'lazy-searching)
+
+
+               (subject 'subj-partially-flatten-a-sequence
+                        "Partially Flatten a Sequence"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "partially-flatten") " which flattens any nested combination of sequential things (lists, vectors, etc.), but maintains the lowest level sequential items. The result should be a sequence of sequences with only one level of nesting.")))
+
+                        (instruction 'ins-partially-flatten-a-sequence
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-partially-flatten-a-sequence
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= (__ [[\"Do\"] [\"Nothing\"]])\n   [[\"Do\"] [\"Nothing\"]])")
+                                                        (code "(= (__ [[[[:a :b]]] [[:c :d]] [:e :f]])\n   [[:a :b] [:c :d] [:e :f]])")
+                                                        (code "(= (__ '((1 2)((3 4)((((5 6)))))))\n   '((1 2)(3 4)(5 6)))"))
+                                                      (testing
+                                                        (is (= (__ [["Do"] ["Nothing"]]) [["Do"] ["Nothing"]]) :default :advanced)
+                                                        (is (= (__ [[[[:a :b]]] [[:c :d]] [:e :f]]) [[:a :b] [:c :d] [:e :f]]) :default :advanced)
+                                                        (is (= (__ '((1 2) ((3 4) ((((5 6))))))) '((1 2) (3 4) (5 6))) :default :advanced))))
+                        'partially-flatten-a-sequence)
                ))
 
 
@@ -891,3 +1034,46 @@
                  (if (>= n base)
                    (concat (digits (int (/ n base)) base) [(mod n base)])
                    [n])))
+
+(defcoursetest my-test-26
+               [ch-problems sub-ch-medium subj-oscilrate ins-oscilrate sub-ins-oscilrate]
+               (defn oscilrate [x f & funcs]
+                 (lazy-seq
+                   (let [y          (f x)
+                         next-funcs (concat funcs [f])]
+                     (cons x (apply oscilrate y next-funcs))))))
+
+(defcoursetest my-test-27
+               [ch-problems sub-ch-medium subj-pronounce-seq ins-pronounce-seq sub-ins-pronounce-seq]
+               (defn pronounce-seq [xs]
+                 (lazy-seq
+                   (let [pron (->> xs
+                                   (partition-by identity)
+                                   (map #(vector (count %) (first %)))
+                                   (reduce concat))]
+                     (cons pron (pronounce-seq pron))))))
+
+(defcoursetest my-test-28
+               [ch-problems sub-ch-medium subj-decurry ins-decurry sub-ins-decurry]
+               (defn decurry [f]
+                 (fn inner [x & args]
+                   (if (empty? args)
+                     (f x)
+                     (apply (decurry (f x)) args)))))
+
+(defcoursetest my-test-29
+               [ch-problems sub-ch-medium subj-lazy-searching ins-lazy-searching sub-ins-lazy-searching]
+               (defn lazy-search [& seqs]
+                 (let [smallest (first (first seqs))
+                       dropped  (map (fn [xs] (drop-while #(< % smallest) xs)) seqs)
+                       firsts   (map first dropped)]
+                   (if (apply = firsts)
+                     smallest
+                     (apply lazy-search (cons (rest (first dropped)) (rest dropped)))))))
+
+(defcoursetest my-test-30
+               [ch-problems sub-ch-medium subj-partially-flatten-a-sequence ins-partially-flatten-a-sequence sub-ins-partially-flatten-a-sequence]
+               (defn partially-flatten [xs]
+                 (if (every? sequential? xs)
+                   (mapcat partially-flatten xs)
+                   [xs])))
