@@ -823,13 +823,13 @@
                                      (sub-instruction 'sub-ins-partially-flatten-a-sequence
                                                       (text
                                                         (p "Tests need to pass:")
-                                                        (code "(= (__ [[\"Do\"] [\"Nothing\"]])\n   [[\"Do\"] [\"Nothing\"]])")
-                                                        (code "(= (__ [[[[:a :b]]] [[:c :d]] [:e :f]])\n   [[:a :b] [:c :d] [:e :f]])")
-                                                        (code "(= (__ '((1 2)((3 4)((((5 6)))))))\n   '((1 2)(3 4)(5 6)))"))
+                                                        (code "(= (partially-flatten [[\"Do\"] [\"Nothing\"]])\n   [[\"Do\"] [\"Nothing\"]])")
+                                                        (code "(= (partially-flatten [[[[:a :b]]] [[:c :d]] [:e :f]])\n   [[:a :b] [:c :d] [:e :f]])")
+                                                        (code "(= (partially-flatten '((1 2)((3 4)((((5 6)))))))\n   '((1 2)(3 4)(5 6)))"))
                                                       (testing
-                                                        (is (= (__ [["Do"] ["Nothing"]]) [["Do"] ["Nothing"]]) :default :advanced)
-                                                        (is (= (__ [[[[:a :b]]] [[:c :d]] [:e :f]]) [[:a :b] [:c :d] [:e :f]]) :default :advanced)
-                                                        (is (= (__ '((1 2) ((3 4) ((((5 6))))))) '((1 2) (3 4) (5 6))) :default :advanced))))
+                                                        (is (= (partially-flatten [["Do"] ["Nothing"]]) [["Do"] ["Nothing"]]) :default :advanced)
+                                                        (is (= (partially-flatten [[[[:a :b]]] [[:c :d]] [:e :f]]) [[:a :b] [:c :d] [:e :f]]) :default :advanced)
+                                                        (is (= (partially-flatten '((1 2) ((3 4) ((((5 6))))))) '((1 2) (3 4) (5 6))) :default :advanced))))
                         'partially-flatten-a-sequence)
                ))
 
