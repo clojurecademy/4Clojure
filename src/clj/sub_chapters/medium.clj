@@ -1506,7 +1506,7 @@
 (defcoursetest my-test-39
                [ch-problems sub-ch-medium subj-balancing-brackets ins-balancing-brackets sub-ins-balancing-brackets]
                (defn balanced? [string]
-                 (let [pairs {\( \) \[ \] \}}]
+                 (let [pairs {\( \) \[ \] \{ \}}]
                    (loop [[ch & more] string
                           stack []]
                      (if (nil? ch)
