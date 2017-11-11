@@ -831,6 +831,351 @@
                                                         (is (= (partially-flatten [[[[:a :b]]] [[:c :d]] [:e :f]]) [[:a :b] [:c :d] [:e :f]]) :default :advanced)
                                                         (is (= (partially-flatten '((1 2) ((3 4) ((((5 6))))))) '((1 2) (3 4) (5 6))) :default :advanced))))
                         'partially-flatten-a-sequence)
+
+
+               (subject 'subj-global-take-while
+                        "Global take-while"
+
+                        (learn
+                          (text
+                            (p (link "take-while" "http://clojuredocs.org/clojure_core/clojure.core/take-while") " is great for filtering sequences, but it limited: you can only examine a single item of the sequence at a time. What if you need to keep track of some state as you go over the sequence?")
+                            (p "Write a function called " (hi "global-take-while") " which accepts an integer n, a predicate p, and a sequence. It should return a lazy sequence of items in the list up to, but not including, the nth item that satisfies the predicate.")))
+
+                        (instruction 'ins-global-take-while
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-global-take-while
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= [2 3 5 7 11 13]\n   (global-take-while 4 #(= 2 (mod % 3))\n         [2 3 5 7 11 13 17 19 23]))")
+                                                        (code "(= [\"this\" \"is\" \"a\" \"sentence\"]\n   (global-take-while 3 #(some #{\\i} %)\n         [\"this\" \"is\" \"a\" \"sentence\" \"i\" \"wrote\"]))")
+                                                        (code "(= [\"this\" \"is\"]\n   (global-take-while 1 #{\"a\"}\n         [\"this\" \"is\" \"a\" \"sentence\" \"i\" \"wrote\"]))"))
+                                                      (testing
+                                                        (is (= [2 3 5 7 11 13] (global-take-while 4 #(= 2 (mod % 3)) [2 3 5 7 11 13 17 19 23])) :default :advanced)
+                                                        (is (= ["this" "is" "a" "sentence"] (global-take-while 3 #(some #{\i} %) ["this" "is" "a" "sentence" "i" "wrote"])) :default :advanced)
+                                                        (is (= ["this" "is"] (global-take-while 1 #{"a"} ["this" "is" "a" "sentence" "i" "wrote"])) :default :advanced))))
+                        'global-take-while)
+
+
+               (subject 'subj-insert-between
+                        "Insert between two items"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "insert-between") " that takes a two-argument predicate, a value, and a collection; and returns a new collection where the value is inserted between every two items that satisfy the predicate.")))
+
+                        (instruction 'ins-insert-between
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-insert-between
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= '(1 :less 6 :less 7 4 3) (insert-between < :less [1 6 7 4 3]))")
+                                                        (code "(= '(2) (insert-between > :more [2]))")
+                                                        (code "(= [0 1 :x 2 :x 3 :x 4]  (insert-between #(and (pos? %) (< % %2)) :x (range 5)))")
+                                                        (code "(empty? (insert-between > :more ()))")
+                                                        (code "(= [0 1 :same 1 2 3 :same 5 8 13 :same 21]\n   (take 12 (->> [0 1]\n                 (iterate (fn [[a b]] [b (+ a b)]))\n                 (map first) ; fibonacci numbers\n                 (insert-between (fn [a b] ; both even or both odd\n                       (= (mod a 2) (mod b 2)))\n                     :same))))"))
+                                                      (testing
+                                                        (is (= '(1 :less 6 :less 7 4 3) (insert-between < :less [1 6 7 4 3])) :default :advanced)
+                                                        (is (= '(2) (insert-between > :more [2])) :default :advanced)
+                                                        (is (= [0 1 :x 2 :x 3 :x 4] (insert-between #(and (pos? %) (< % %2)) :x (range 5))) :default :advanced)
+                                                        (is (empty? (insert-between > :more ())) :default :advanced)
+                                                        (is (= [0 1 :same 1 2 3 :same 5 8 13 :same 21]
+                                                               (take 12 (->> [0 1]
+                                                                             (iterate (fn [[a b]] [b (+ a b)]))
+                                                                             (map first)
+                                                                             (insert-between (fn [a b]
+                                                                                               (= (mod a 2) (mod b 2))) :same)))) :default :advanced))))
+                        'insert-between)
+
+
+               (subject 'subj-to-roman
+                        "Write Roman Numerals"
+
+                        (learn
+                          (text
+                            (p "Given an integer smaller than 4000, write a function called " (hi "to-roman")
+                               " which returns the corresponding roman numeral in uppercase, adhering to the "
+                               (link "subtractive principle" "http://www.numericana.com/answer/roman.htm#valid") ".")))
+
+                        (instruction 'ins-to-roman
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-to-roman
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= "I" (to-roman 1)))
+                                                        (code (= "XXX" (to-roman 30)))
+                                                        (code (= "IV" (to-roman 4)))
+                                                        (code (= "CXL" (to-roman 140)))
+                                                        (code (= "DCCCXXVII" (to-roman 827)))
+                                                        (code (= "MMMCMXCIX" (to-roman 3999)))
+                                                        (code (= "XLVIII" (to-roman 48))))
+                                                      (testing
+                                                        (is (= "I" (to-roman 1)) :default :advanced)
+                                                        (is (= "XXX" (to-roman 30)) :default :advanced)
+                                                        (is (= "IV" (to-roman 4)) :default :advanced)
+                                                        (is (= "CXL" (to-roman 140)) :default :advanced)
+                                                        (is (= "DCCCXXVII" (to-roman 827)) :default :advanced)
+                                                        (is (= "MMMCMXCIX" (to-roman 3999)) :default :advanced)
+                                                        (is (= "XLVIII" (to-roman 48)) :default :advanced))))
+                        'to-roman)
+
+
+               (subject 'subj-k-combinations
+                        "Generating k-combinations"
+
+                        (learn
+                          (text
+                            (p "Given a sequence S consisting of n elements, write a function called " (hi "k-combinations")
+                               " which generates all " (link "k-combinations" "https://secure.wikimedia.org/wikipedia/en/wiki/Combination")
+                               " of S, i. e. generate all possible sets consisting of k distinct elements taken from S. The number of k-combinations for a sequence is equal to the "
+                               (link "binomial coefficient" "https://secure.wikimedia.org/wikipedia/en/wiki/Binomial_coefficient") ".")))
+
+                        (instruction 'ins-k-combinations
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-k-combinations
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}}))
+                                                        (code (= (k-combinations 10 #{4 5 6}) #{}))
+                                                        (code (= (k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}}))
+                                                        (code "(= (k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4}\n                         #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}})")
+                                                        (code (= (k-combinations 4 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a "abc" "efg"}}))
+                                                        (code "(= (k-combinations 2 #{[1 2 3] :a \"abc\" \"efg\"}) #{#{[1 2 3] :a} #{[1 2 3] \"abc\"} #{[1 2 3] \"efg\"}\n                                    #{:a \"abc\"} #{:a \"efg\"} #{\"abc\" \"efg\"}})"))
+                                                      (testing
+                                                        (is (= (k-combinations 1 #{4 5 6}) #{#{4} #{5} #{6}}) :default :advanced)
+                                                        (is (= (k-combinations 10 #{4 5 6}) #{}) :default :advanced)
+                                                        (is (= (k-combinations 2 #{0 1 2}) #{#{0 1} #{0 2} #{1 2}}) :default :advanced)
+                                                        (is (= (k-combinations 3 #{0 1 2 3 4}) #{#{0 1 2} #{0 1 3} #{0 1 4} #{0 2 3} #{0 2 4} #{0 3 4} #{1 2 3} #{1 2 4} #{1 3 4} #{2 3 4}}) :default :advanced)
+                                                        (is (= (k-combinations 4 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a "abc" "efg"}}) :default :advanced)
+                                                        (is (= (k-combinations 2 #{[1 2 3] :a "abc" "efg"}) #{#{[1 2 3] :a} #{[1 2 3] "abc"} #{[1 2 3] "efg"} #{:a "abc"} #{:a "efg"} #{"abc" "efg"}}) :default :advanced))))
+                        'k-combinations)
+
+
+               (subject 'subj-prime-sandwich
+                        "Prime Sandwich"
+
+                        (learn
+                          (text
+                            (p "A " (link "balanced prime" "http://en.wikipedia.org/wiki/Balanced_prime")
+                               " is a prime number which is also the mean of the primes directly before and after it in the sequence of valid primes. Create a function called "
+                               (hi "balanced?") " which takes an integer n, and returns true iff it is a balanced prime.")))
+
+                        (instruction 'ins-prime-sandwich
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-prime-sandwich
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= false (balanced? 4)))
+                                                        (code (= true (balanced? 563)))
+                                                        (code (= 1103 (nth (filter balanced? (range)) 15))))
+                                                      (testing
+                                                        (is (= false (balanced? 4)) :default :advanced)
+                                                        (is (= true (balanced? 563)) :default :advanced)
+                                                        (is (= 1103 (nth (filter balanced? (range)) 15)) :default :advanced))))
+                        'prime-sandwich)
+
+
+               (subject 'subj-uct
+                        "Universal Computation Engine"
+
+                        (learn
+                          (text
+                            (p "Given a mathematical formula in prefix notation, write a function called " (hi "uct") " which returns a function that calculates the value of the formula. The formula can contain nested calculations using the four basic mathematical operators, numeric constants, and symbols representing variables. The returned function has to accept a single parameter containing the map of variable names to their values.")))
+
+                        (instruction 'ins-uct
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-uct
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= 2 ((uct '(/ a b))\n      '{b 8 a 16}))")
+                                                        (code "(= 8 ((uct '(+ a b 2))\n      '{a 2 b 4}))")
+                                                        (code "(= [6 0 -4]\n     (map (uct '(* (+ 2 a)\n  \t              (- 10 b)))\n\t        '[{a 1 b 8}\n\t          {b 5 a -2}\n\t          {a 2 b 11}]))")
+                                                        (code "(= 1 ((utc '(/ (+ x 2)\n              (* 3 (+ y 1))))\n      '{x 4 y 1}))\n"))
+                                                      (testing
+                                                        (is (= 2 ((uct '(/ a b)) '{b 8 a 16})) :default :advanced)
+                                                        (is (= 8 ((uct '(+ a b 2)) '{a 2 b 4})) :default :advanced)
+                                                        (is (= [6 0 -4]
+                                                               (map (uct '(* (+ 2 a)
+                                                                             (- 10 b))) '[{a 1 b 8}
+                                                                                          {b 5 a -2}
+                                                                                          {a 2 b 11}])) :default :advanced)
+                                                        (is (= 1 ((uct '(/ (+ x 2) (* 3 (+ y 1)))) '{x 4 y 1})) :default :advanced))))
+                        'uct)
+
+
+               (subject 'subj-intervals
+                        "Intervals"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "intervals") " that takes a sequence of integers and returns a sequence of \"intervals\". Each interval is a a vector of two integers, start and end, such that all integers between start and end (inclusive) are contained in the input sequence.")))
+
+                        (instruction 'ins-intervals
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-intervals
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= (intervals [1 2 3]) [[1 3]]))
+                                                        (code (= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]]))
+                                                        (code (= (intervals [1 1 1 1 1 1 1]) [[1 1]]))
+                                                        (code (= (intervals []) []))
+                                                        (code "(= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])\n       [[1 4] [6 6] [9 11] [13 17] [19 19]])"))
+                                                      (testing
+                                                        (is (= (intervals [1 2 3]) [[1 3]]) :default :advanced)
+                                                        (is (= (intervals [10 9 8 1 2 3]) [[1 3] [8 10]]) :default :advanced)
+                                                        (is (= (intervals [1 1 1 1 1 1 1]) [[1 1]]) :default :advanced)
+                                                        (is (= (intervals []) []) :default :advanced)
+                                                        (is (= (intervals [19 4 17 1 3 10 2 13 13 2 16 4 2 15 13 9 6 14 2 11])
+                                                               [[1 4] [6 6] [9 11] [13 17] [19 19]]) :default :advanced))))
+                        'intervals)
+
+
+               (subject 'subj-big-divide
+                        "The Big Divide"
+
+                        (learn
+                          (text
+                            (p "Write a function called " (hi "big-divide")
+                               " which calculates the sum of all natural numbers under n (first argument) which are evenly divisible by at least one of a and b (second and third argument). Numbers a and b are guaranteed to be " (link "coprimes" "http://en.wikipedia.org/wiki/Coprime") ".")
+                            (p "Note: Some test cases have a very large n, so the most obvious solution will exceed the time limit.")))
+
+                        (instruction 'ins-big-divide
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-big-divide
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (= 0 (big-divide 3 17 11)))
+                                                        (code (= 23 (big-divide 10 3 5)))
+                                                        (code (= 233168 (big-divide 1000 3 5)))
+                                                        (code (= "2333333316666668" (str (big-divide 100000000 3 5))))
+                                                        (code "(= \"110389610389889610389610\"\n  (str (big-divide (* 10000 10000 10000) 7 11)))")
+                                                        (code "(= \"1277732511922987429116\"\n  (str (big-divide (* 10000 10000 10000) 757 809)))")
+                                                        (code "(= \"4530161696788274281\"\n  (str (big-divide (* 10000 10000 1000) 1597 3571)))"))
+                                                      (testing
+                                                        (is (= 0 (big-divide 3 17 11)) :default :advanced)
+                                                        (is (= 23 (big-divide 10 3 5)) :default :advanced)
+                                                        (is (= 233168 (big-divide 1000 3 5)) :default :advanced)
+                                                        (is (= "2333333316666668" (str (big-divide 100000000 3 5))) :default :advanced)
+                                                        (is (= "110389610389889610389610" (str (big-divide (* 10000 10000 10000) 7 11))) :default :advanced)
+                                                        (is (= "1277732511922987429116" (str (big-divide (* 10000 10000 10000) 757 809))) :default :advanced)
+                                                        (is (= "4530161696788274281" (str (big-divide (* 10000 10000 1000) 1597 3571))) :default :advanced))))
+                        'big-divide)
+
+
+               (subject 'subj-balancing-brackets
+                        "Balancing Brackets"
+
+                        (learn
+                          (text
+                            (p "When parsing a snippet of code it's often a good idea to do a sanity check to see if all the brackets match up. Write a function called "
+                               (hi "balanced?") " that takes in a string and returns truthy if all square [ ] round ( ) and curly { } brackets are properly paired and legally nested, or returns falsey otherwise.")))
+
+                        (instruction 'ins-balancing-brackets
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-balancing-brackets
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code (balanced? "This string has no brackets."))
+                                                        (code "(balanced? \"class Test {\n      public static void main(String[] args) {\n        System.out.println(\\\"Hello world.\\\");\n      }\n    }\")")
+                                                        (code (not (balanced? "(start, end]")))
+                                                        (code (not (balanced? "())")))
+                                                        (code (not (balanced? "[ { ] } ")))
+                                                        (code (balanced? "([]([(()){()}(()(()))(([[]]({}()))())]((((()()))))))"))
+                                                        (code (not (balanced? "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))")))
+                                                        (code (not (balanced? "["))))
+                                                      (testing
+                                                        (is (balanced? "This string has no brackets.") :default :advanced)
+                                                        (is (balanced? "class Test {
+      public static void main(String[] args) {
+        System.out.println(\"Hello world.\");
+      }
+    }") :default :advanced)
+                                                        (is (not (balanced? "(start, end]")) :default :advanced)
+                                                        (is (not (balanced? "())")) :default :advanced)
+                                                        (is (not (balanced? "[ { ] } ")) :default :advanced)
+                                                        (is (balanced? "([]([(()){()}(()(()))(([[]]({}()))())]((((()()))))))") :default :advanced)
+                                                        (is (not (balanced? "([]([(()){()}(()(()))(([[]]({}([)))())]((((()()))))))")) :default :advanced)
+                                                        (is (not (balanced? "[")) :default :advanced))))
+                        'balancing-brackets)
+
+
+               (subject 'subj-set-subset
+                        "Sum Some Set Subsets"
+
+                        (learn
+                          (text
+                            (p "Given a variable number of sets of integers, write a function called " (hi "have-subset?")
+                               " create a function which returns true iff all of the sets have a non-empty subset with an equivalent summation.")))
+
+                        (instruction 'ins-set-subset
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-set-subset
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= true  (have-subset? #{-1 1 99} \n             #{-2 2 888}\n             #{-3 3 7777}))")
+                                                        (code "(= false (have-subset? #{1}\n             #{2}\n             #{3}\n             #{4}))")
+                                                        (code "(= true  (have-subset? #{1}))")
+                                                        (code "(= false (have-subset? #{1 -3 51 9} \n             #{0} \n             #{9 2 81 33}))")
+                                                        (code "(= true  (have-subset? #{1 3 5}\n             #{9 11 4}\n             #{-3 12 3}\n             #{-3 4 -2 10}))")
+                                                        (code "(= false (have-subset? #{-1 -2 -3 -4 -5 -6}\n             #{1 2 3 4 5 6 7 8 9}))")
+                                                        (code "(= true  (have-subset? #{1 3 5 7}\n             #{2 4 6 8}))")
+                                                        (code "(= true  (have-subset? #{-1 3 -5 7 -9 11 -13 15}\n             #{1 -3 5 -7 9 -11 13 -15}\n             #{1 -1 2 -2 4 -4 8 -8}))")
+                                                        (code "(= true  (have-subset? #{-10 9 -8 7 -6 5 -4 3 -2 1}\n             #{10 -9 8 -7 6 -5 4 -3 2 -1}))"))
+                                                      (testing
+                                                        (is (= true  (have-subset? #{-1 1 99}
+                                                                         #{-2 2 888}
+                                                                         #{-3 3 7777})) :default :advanced)
+                                                        (is (= false (have-subset? #{1}
+                                                                         #{2}
+                                                                         #{3}
+                                                                         #{4})) :default :advanced)
+                                                        (is (= true  (have-subset? #{1})) :default :advanced)
+                                                        (is (= false (have-subset? #{1 -3 51 9}
+                                                                         #{0}
+                                                                         #{9 2 81 33})) :default :advanced)
+                                                        (is (= true  (have-subset? #{1 3 5}
+                                                                         #{9 11 4}
+                                                                         #{-3 12 3}
+                                                                         #{-3 4 -2 10})) :default :advanced)
+                                                        (is (= false (have-subset? #{-1 -2 -3 -4 -5 -6}
+                                                                         #{1 2 3 4 5 6 7 8 9})) :default :advanced)
+                                                        (is (= true  (have-subset? #{1 3 5 7}
+                                                                         #{2 4 6 8})) :default :advanced)
+                                                        (is (= true  (have-subset? #{-1 3 -5 7 -9 11 -13 15}
+                                                                         #{1 -3 5 -7 9 -11 13 -15}
+                                                                         #{1 -1 2 -2 4 -4 8 -8})) :default :advanced)
+                                                        (is (= true  (have-subset? #{-10 9 -8 7 -6 5 -4 3 -2 1}
+                                                                         #{10 -9 8 -7 6 -5 4 -3 2 -1})) :default :advanced))))
+                        'set-subset)
                ))
 
 
@@ -1077,3 +1422,113 @@
                  (if (every? sequential? xs)
                    (mapcat partially-flatten xs)
                    [xs])))
+
+(defcoursetest my-test-31
+               [ch-problems sub-ch-medium subj-global-take-while ins-global-take-while sub-ins-global-take-while]
+               (defn global-take-while [n p xs]
+                 (lazy-seq
+                   (if (p (first xs))
+                     (if (> n 1)
+                       (cons (first xs) (global-take-while (dec n) p (rest xs))))
+                     (cons (first xs) (global-take-while n p (rest xs)))))))
+
+(defcoursetest my-test-32
+               [ch-problems sub-ch-medium subj-insert-between ins-insert-between sub-ins-insert-between]
+               (defn insert-between [predicate delimiter xs]
+                 (mapcat (fn [[a b]] (if (and (not (nil? b)) (predicate a b)) (list a delimiter) (list a)))
+                         (partition-all 2 1 xs))))
+
+(defcoursetest my-test-33
+               [ch-problems sub-ch-medium subj-to-roman ins-to-roman sub-ins-to-roman]
+               (defn to-roman [n]
+                 (let [thousands       ["" "M" "MM" "MMM" "MMMM"]
+                       hundreds        ["" "C" "CC" "CCC" "CD" "D" "DC" "DCC" "DCCC" "CM"]
+                       tens            ["" "X" "XX" "XXX" "XL" "L" "LX" "LXX" "LXXX" "XC"]
+                       units           ["" "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX"]
+                       positions       [units tens hundreds thousands]
+                       char-to-digit   (zipmap (seq "0123456789") (range 10))
+                       digits          (map char-to-digit (seq (str n)))
+                       position-digits (map-indexed vector (reverse digits))
+                       chars           (map (fn [[pos val]] ((positions pos) val)) position-digits)]
+                   (apply str (reverse chars)))))
+
+(defcoursetest my-test-34
+               [ch-problems sub-ch-medium subj-k-combinations ins-k-combinations sub-ins-k-combinations]
+               (defn k-combinations [n s]
+                 (if (> n (count s))
+                   #{}
+                   (if (= 1 n) (into #{} (map (comp set vector) s))
+                               (let [prior (k-combinations (dec n) s)]
+                                 (into #{} (for [p prior
+                                                 q (clojure.set/difference s p)]
+                                             (clojure.set/union p #{q}))))))))
+
+(defcoursetest my-test-35
+               [ch-problems sub-ch-medium subj-prime-sandwich ins-prime-sandwich sub-ins-prime-sandwich]
+               (defn balanced? [num]
+                 (letfn [(prime []
+                           (letfn [(step [coll]
+                                     (let [head (first coll)]
+                                       (lazy-seq (cons head (step (filter #(pos? (mod % head)) coll))))))]
+                             (step (range 2 Long/MAX_VALUE))))
+                         (balanced-prime []
+                           (map second (filter #(= (second %) (/ (+ (first %) (last %)) 2)) (partition 3 1 (prime)))))]
+                   (= num (last (take-while #(<= % num) (balanced-prime)))))))
+
+(defcoursetest my-test-36
+               [ch-problems sub-ch-medium subj-uct ins-uct sub-ins-uct]
+               (defn uct [[op-sym & args]]
+                 (let [operator (get {'/ / '* * '+ + '- -} op-sym)]
+                   (fn [vars]
+                     (let [calculate (fn [exp] (if (seq? exp) ((uct exp) vars) (or (vars exp) exp)))]
+                       (apply operator (map calculate args)))))))
+
+(defcoursetest my-test-37
+               [ch-problems sub-ch-medium subj-intervals ins-intervals sub-ins-intervals]
+               (defn intervals [xs]
+                 (->> xs
+                      sort
+                      (partition-all 2 1)
+                      (#(cons [(ffirst %)] %))
+                      (remove (fn [[a b]] (and a b (< (- b a) 2))))
+                      flatten
+                      (partition 2))))
+
+(defcoursetest my-test-38
+               [ch-problems sub-ch-medium subj-big-divide ins-big-divide sub-ins-big-divide]
+               (defn big-divide [num a b]
+                 (let [ar-sum   (fn [m n] (* m (+ n 1) (/ n 2)))
+                       how-many (fn [m] (bigint (/ (dec num) m)))]
+                   (- (+ (ar-sum a (how-many a))
+                         (ar-sum b (how-many b)))
+                      (ar-sum (* a b) (how-many (* a b)))))))
+
+(defcoursetest my-test-39
+               [ch-problems sub-ch-medium subj-balancing-brackets ins-balancing-brackets sub-ins-balancing-brackets]
+               (defn balanced? [string]
+                 (let [pairs {\( \) \[ \] \}}]
+                   (loop [[ch & more] string
+                          stack []]
+                     (if (nil? ch)
+                       (empty? stack)
+                       (if (pairs ch)
+                         (recur more (cons ch stack))
+                         (if (some #{ch} (vals pairs))
+                           (and (= ch (pairs (first stack))) (recur more (rest stack)))
+                           (recur more stack))))))))
+
+(defcoursetest my-test-40
+               [ch-problems sub-ch-medium subj-set-subset ins-set-subset sub-ins-set-subset]
+               (defn have-subset? [& sets]
+                 (let [powerset (fn [s] (reduce
+                                          #(clojure.set/union %1 (into #{} (for [subset %1] (conj subset %2))))
+                                          #{#{}}
+                                          s))
+                       sumset (fn [s] (into #{} (map (partial reduce +) s)))]
+                   (->> sets
+                        (map powerset)
+                        (map #(remove empty? %))
+                        (map sumset)
+                        (apply clojure.set/intersection)
+                        empty?
+                        not))))
