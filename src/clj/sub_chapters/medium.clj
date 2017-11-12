@@ -1151,32 +1151,100 @@
                                                         (code "(= true  (have-subset? #{-1 3 -5 7 -9 11 -13 15}\n             #{1 -3 5 -7 9 -11 13 -15}\n             #{1 -1 2 -2 4 -4 8 -8}))")
                                                         (code "(= true  (have-subset? #{-10 9 -8 7 -6 5 -4 3 -2 1}\n             #{10 -9 8 -7 6 -5 4 -3 2 -1}))"))
                                                       (testing
-                                                        (is (= true  (have-subset? #{-1 1 99}
-                                                                         #{-2 2 888}
-                                                                         #{-3 3 7777})) :default :advanced)
+                                                        (is (= true (have-subset? #{-1 1 99}
+                                                                                  #{-2 2 888}
+                                                                                  #{-3 3 7777})) :default :advanced)
                                                         (is (= false (have-subset? #{1}
-                                                                         #{2}
-                                                                         #{3}
-                                                                         #{4})) :default :advanced)
-                                                        (is (= true  (have-subset? #{1})) :default :advanced)
+                                                                                   #{2}
+                                                                                   #{3}
+                                                                                   #{4})) :default :advanced)
+                                                        (is (= true (have-subset? #{1})) :default :advanced)
                                                         (is (= false (have-subset? #{1 -3 51 9}
-                                                                         #{0}
-                                                                         #{9 2 81 33})) :default :advanced)
-                                                        (is (= true  (have-subset? #{1 3 5}
-                                                                         #{9 11 4}
-                                                                         #{-3 12 3}
-                                                                         #{-3 4 -2 10})) :default :advanced)
+                                                                                   #{0}
+                                                                                   #{9 2 81 33})) :default :advanced)
+                                                        (is (= true (have-subset? #{1 3 5}
+                                                                                  #{9 11 4}
+                                                                                  #{-3 12 3}
+                                                                                  #{-3 4 -2 10})) :default :advanced)
                                                         (is (= false (have-subset? #{-1 -2 -3 -4 -5 -6}
-                                                                         #{1 2 3 4 5 6 7 8 9})) :default :advanced)
-                                                        (is (= true  (have-subset? #{1 3 5 7}
-                                                                         #{2 4 6 8})) :default :advanced)
-                                                        (is (= true  (have-subset? #{-1 3 -5 7 -9 11 -13 15}
-                                                                         #{1 -3 5 -7 9 -11 13 -15}
-                                                                         #{1 -1 2 -2 4 -4 8 -8})) :default :advanced)
-                                                        (is (= true  (have-subset? #{-10 9 -8 7 -6 5 -4 3 -2 1}
-                                                                         #{10 -9 8 -7 6 -5 4 -3 2 -1})) :default :advanced))))
+                                                                                   #{1 2 3 4 5 6 7 8 9})) :default :advanced)
+                                                        (is (= true (have-subset? #{1 3 5 7}
+                                                                                  #{2 4 6 8})) :default :advanced)
+                                                        (is (= true (have-subset? #{-1 3 -5 7 -9 11 -13 15}
+                                                                                  #{1 -3 5 -7 9 -11 13 -15}
+                                                                                  #{1 -1 2 -2 4 -4 8 -8})) :default :advanced)
+                                                        (is (= true (have-subset? #{-10 9 -8 7 -6 5 -4 3 -2 1}
+                                                                                  #{10 -9 8 -7 6 -5 4 -3 2 -1})) :default :advanced))))
                         'set-subset)
-               ))
+
+
+               (subject 'subj-sequs
+                        "Sequs Horribilis"
+
+                        (learn
+                          (text
+                            (p "Create a function called " (hi "sequs") " which takes an integer and a nested collection of integers as arguments. Analyze the elements of the input collection and return a sequence which maintains the nested structure, and which includes all elements starting from the head whose sum is less than or equal to the input integer.")))
+
+                        (instruction 'ins-sequs
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-ins-sequs
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(=  (sequs 10 [1 2 [3 [4 5] 6] 7])\n   '(1 2 (3 (4))))")
+                                                        (code "(=  (sequs 30 [1 2 [3 [4 [5 [6 [7 8]] 9]] 10] 11])\n   '(1 2 (3 (4 (5 (6 (7)))))))")
+                                                        (code "(=  (sequs 9 (range))\n   '(0 1 2 3))")
+                                                        (code "(=  (sequs 1 [[[[[1]]]]])\n   '(((((1))))))")
+                                                        (code "(=  (sequs 0 [1 2 [3 [4 5] 6] 7])\n   '())")
+                                                        (code "(=  (sequs 0 [0 0 [0 [0]]])\n   '(0 0 (0 (0))))")
+                                                        (code "(=  (sequs 1 [-10 [1 [2 3 [4 5 [6 7 [8]]]]]])\n   '(-10 (1 (2 3 (4)))))"))
+                                                      (testing
+                                                        (is (= (sequs 10 [1 2 [3 [4 5] 6] 7])
+                                                               '(1 2 (3 (4)))) :default :advanced)
+                                                        (is (= (sequs 30 [1 2 [3 [4 [5 [6 [7 8]] 9]] 10] 11])
+                                                               '(1 2 (3 (4 (5 (6 (7))))))) :default :advanced)
+                                                        (is (= (sequs 9 (range))
+                                                               '(0 1 2 3)) :default :advanced)
+                                                        (is (= (sequs 1 [[[[[1]]]]])
+                                                               '(((((1)))))) :default :advanced)
+                                                        (is (= (sequs 0 [1 2 [3 [4 5] 6] 7])
+                                                               '()) :default :advanced)
+                                                        (is (= (sequs 0 [0 0 [0 [0]]])
+                                                               '(0 0 (0 (0)))) :default :advanced)
+                                                        (is (= (sequs 1 [-10 [1 [2 3 [4 5 [6 7 [8]]]]]])
+                                                               '(-10 (1 (2 3 (4))))) :default :advanced))))
+                        'sequs)
+
+
+               (subject 'subj-tricky-game
+                        "Tricky card games"
+
+                        (learn
+                          (text
+                            (p "In " (link "trick-taking card games" "http://en.wikipedia.org/wiki/Trick-taking_game")
+                               " such as bridge, spades, or hearts, cards are played in groups known as \"tricks\" - each player plays a single card, in order; the first player is said to \"lead\" to the trick. After all players have played, one card is said to have \"won\" the trick. How the winner is determined will vary by game, but generally the winner is the highest card played in the suit that was led. Sometimes (again varying by game), a particular suit will be designated \"trump\", meaning that its cards are more powerful than any others: if there is a trump suit, and any trumps are played, then the highest trump wins regardless of what was led.")
+                            (p "Your goal is to devise a function called " (hi "game")
+                               " that can determine which of a number of cards has won a trick. You should accept a trump suit, and return a function winner. Winner will be called on a sequence of cards, and should return the one which wins the trick. Cards will be represented in  a hash-map of :suit and a numeric :rank. Cards with a larger rank are stronger.")))
+
+                        (instruction 'ins-tricky-game
+                                     (run-pre-tests? false)
+                                     (initial-code :none)
+                                     (rule :no-rule? true)
+
+                                     (sub-instruction 'sub-tricky-game
+                                                      (text
+                                                        (p "Tests need to pass:")
+                                                        (code "(= {:suit :club :rank 10} ((game :club) [{:suit :spade :rank 2}\n                                       {:suit :club :rank 10}]))")
+                                                        (code "(= {:suit :heart :rank 8}\n   ((game :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}\n                 {:suit :diamond :rank 10} {:suit :heart :rank 4}]))"))
+                                                      (testing
+                                                        (is (= {:suit :club :rank 10} ((game :club) [{:suit :spade :rank 2}
+                                                                                                     {:suit :club :rank 10}])) :default :advanced)
+                                                        (is (= {:suit :heart :rank 8}
+                                                               ((game :heart) [{:suit :heart :rank 6} {:suit :heart :rank 8}
+                                                                               {:suit :diamond :rank 10} {:suit :heart :rank 4}])) :default :advanced))))
+                        'tricky-game)))
 
 
 (defcoursetest my-test-1
@@ -1524,7 +1592,7 @@
                                           #(clojure.set/union %1 (into #{} (for [subset %1] (conj subset %2))))
                                           #{#{}}
                                           s))
-                       sumset (fn [s] (into #{} (map (partial reduce +) s)))]
+                       sumset   (fn [s] (into #{} (map (partial reduce +) s)))]
                    (->> sets
                         (map powerset)
                         (map #(remove empty? %))
@@ -1532,3 +1600,25 @@
                         (apply clojure.set/intersection)
                         empty?
                         not))))
+
+(defcoursetest my-test-41
+               [ch-problems sub-ch-medium subj-sequs ins-sequs sub-ins-sequs]
+               (defn sequs [sum [x & xs]]
+                 (if (nil? x) []
+                              (if (sequential? x)
+                                (concat [(sequs sum x)] (sequs (- sum (reduce + (flatten x))) xs))
+                                (if (< sum x)
+                                  []
+                                  (concat [x] (sequs (- sum x) xs)))))))
+
+(defcoursetest my-test-42
+               [ch-problems sub-ch-medium subj-tricky-game ins-tricky-game sub-tricky-game]
+               (defn game [trump-suit]
+                 (fn winner [cards]
+                   (let [leading-suit (get (first cards) :suit)
+                         score        (fn [{:keys [rank suit]}]
+                                        (+ rank (* 13
+                                                   (if (= suit trump-suit) 2
+                                                                           (if (= suit leading-suit) 1
+                                                                                                     0)))))]
+                     (last (sort-by score cards))))))
