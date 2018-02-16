@@ -548,7 +548,7 @@
 
 
                (subject 'subj-rearranging-code
-                        "Simple Recursion"
+                        "Rearranging Code"
 
                         (learn
                           (text
