@@ -419,7 +419,7 @@
                                                         (p "Tests need to pass:")
                                                         (code (= (take 5 (my-reduce + (range))) [0 1 3 6 10]))
                                                         (code (= (my-reduce conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]]))
-                                                        (code (= (my-last ["b" "c" "d"]) "d")))
+                                                        (code (= (last (my-reduce * 2 [3 4 5])) (reduce * 2 [3 4 5]) 120)))
                                                       (testing
                                                         (is (= (take 5 (my-reduce + (range))) [0 1 3 6 10]) :default :advanced)
                                                         (is (= (my-reduce conj [1] [2 3 4]) [[1] [1 2] [1 2 3] [1 2 3 4]]) :default :advanced)
