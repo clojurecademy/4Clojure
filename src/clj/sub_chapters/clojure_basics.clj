@@ -267,7 +267,7 @@
                           (text
                             (p "There are a number of functions for working with strings. Here are some examples of a few of them:")
                             (code (str "(str \"hi\" \"there\")\n;; ⇒ \"hithere\"\n\n(count \"hello\")\n"
-                                       ";; ⇒ 5\n\n(require '[clojure.string :as str])\n"
+                                       ";; ⇒ 5\n\n(require [clojure.string :as str])\n"
                                        ";; ⇒ nil\n\n(str/split \"hello there\" #\" \")\n"
                                        ";; ⇒ [\"hello\" \"there\"]\n\n"
                                        "(str/join [\"hello\" \"there\"])\n"
